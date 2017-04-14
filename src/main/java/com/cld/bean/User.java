@@ -5,6 +5,7 @@ package com.cld.bean;
  */
 public class User {
 
+    private Integer id;
     private String name;
     private String sex;
 
@@ -22,5 +23,13 @@ public class User {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
