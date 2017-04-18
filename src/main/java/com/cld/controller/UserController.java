@@ -1,6 +1,8 @@
 package com.cld.controller;
 
+import com.cld.bean.BaChannel;
 import com.cld.bean.User;
+import com.cld.services.BaChannelService;
 import com.cld.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private BaChannelService baChannelService;
 
     @RequestMapping(value = "hello")
     public String hello(){
@@ -33,5 +37,10 @@ public class UserController {
     public List<User> findAll(){
         return userService.findAll();
     }
-
+    @RequestMapping(value = "findById")
+    public List<BaChannel> search(){
+        BaChannel baChannel = new BaChannel();
+        baChannel.setType("book");
+        return baChannelService.searchAll(baChannel);
+    }
 }
