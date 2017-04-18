@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cld.mapper.BaChannelMapper" >
+  <resultMap id="BaseResultMap" type="com.cld.bean.BaChannel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="channelName" property="channelname" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="parentId" property="parentid" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="createBy" property="createby" jdbcType="VARCHAR" />
+    <result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="updateBy" property="updateby" jdbcType="VARCHAR" />
+    <result column="deleFlag" property="deleflag" jdbcType="VARCHAR" />
+      <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, channelName,grade, parentId, description, url, createDate, createBy,
+    updateDate, updateBy, deleFlag,type
+  </sql>
+    <!-- 根据id查实体-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ba_channel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <!-- 根据id删除实体-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ba_channel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <!-- 插入数据-->
+  <insert id="insert" parameterType="com.cld.bean.BaChannel" >
+    insert into ba_channel (code, channelName,grade, parentId, description,
+      url, createDate, createBy, 
+      updateDate, updateBy, deleFlag,type
+      )
+    values ( #{code,jdbcType=VARCHAR}, #{channelname,jdbcType=VARCHAR},
+      #{grade,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR}
+      )
+  </insert>
+    <!-- 根据id更新实体-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.cld.bean.BaChannel" >
+    update ba_channel
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="channelname != null" >
+        channelName = #{channelname,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null" >
+        createBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        updateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="deleflag != null" >
+        deleFlag = #{deleflag,jdbcType=VARCHAR},
+      </if>
+     <if test="type != null" >
+            deleFlag = #{type,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!-- 查询实体list-->
+    <select id="searchAll" resultMap="BaseResultMap" parameterType="com.cld.bean.BaChannel">
+        select
+        <include refid="Base_Column_List" />
+        from ba_channel
+        where type = #{type,jdbcType=VARCHAR} AND  deleFlag = 'N'
+    </select>
+</mapper>

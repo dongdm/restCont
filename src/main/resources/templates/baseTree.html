@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:fragment="header">
+	<link rel="stylesheet" href="/plugin/ztree/css/zTreeStyle/zTreeStyle.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+
+	<script src="/plugin/ztree/js/jquery-1.4.4.min.js"></script>
+	<script src="/plugin/ztree/js/jquery.ztree.core.js"></script>
+</head>
+<body>
+<div class="header">风控管理系统</div>
+<div class="box">
+	<div class="left-menu">
+		<div class="btn-group">
+			<button class="on-click add-btn" btype="1">添加</button>
+			<button class="on-click edit-btn"  btype="2">修改</button>
+			<button class="on-click del-btn"  btype="3">删除</button>
+		</div>
+		<ul id="tree" class="ztree"></ul>
+	</div>
+	<div class="right-content">88888</div>
+</div>
+
+<div class="pop-box">
+	<ul class="pop-ul">
+		<input type="hidden"  id="id"/>
+		<input type="hidden"  id="type"/>
+		<li class="name"><span class="nChannel">上级栏目 : </span><input type="text"  id="name"/></li>
+		<li class="age"><span>栏目名称: </span><input type="text" id="cName"/></li>
+		<li class="sub-btn"><span class="bbt">提交</span></li>
+	</ul>
+</div>
+<div class="bg"></div>
+
+</body>
+</html>
+<script th:inline="javascript">
+    var setting = {
+        data: {
+            simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: 0
+            }
+        },
+        callback: {
+            onClick: zTreeOnClick
+        }
+    };
+    var ss = [[${list}]];
+    var treeNodes = eval("("+ss+")");
+    $(document).ready(function(){
+        $.fn.zTree.init($("#tree"), setting, treeNodes);
+        var treeObj = $.fn.zTree.getZTreeObj("tree");
+        treeObj.expandAll(true);
+    });
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        //alert(treeNode.id + ", " + treeNode.name);
+		$("#id").val(treeNode.id );
+		$("#name").val(treeNode.name);
+    }
+
+    $(".bg").click(function(){
+        $('.pop-box').removeClass('p-show').hide();
+        $('.bg').hide();
+	})
+
+    $('.on-click').click(function(){
+        if($('.pop-box').hasClass('p-show')){
+            $('.pop-box').removeClass('p-show').hide();
+            $('.bg').hide();
+        }else{
+            //显示弹窗
+			var type = $(this).attr("btype");
+			var id = $("#id").val();
+			if(type==1){
+                if(id==null||id==''||id==undefined){
+                    $("#id").val("0");
+                    $("#name").val("添加根节点");
+				}
+			}else{
+                if(id==null||id==''||id==undefined){
+						alert("请选择节点！");
+					return false;
+                }
+			}
+
+            $("#type").val(type);
+            if(type==2){
+               $(".age").css("display","none");
+               $(".bbt").html("确定修改");
+               $(".nChannel").html("栏目名称:");
+			}else if(type==3){
+                $(".age").css("display","none");
+                $(".bbt").html("确定删除");
+                $(".nChannel").html("栏目名称:");
+			}
+            $('.pop-box').addClass('p-show').show();
+            $('.bg').show();
+
+        }
+    })
+    $('.sub-btn').click(function(){
+        $('.pop-box').removeClass('p-show').hide();
+        $('.bg').hide();
+        var name = $("#cName").val();
+        var uname = $("#name").val();
+        var parendId= $("#id").val();
+        var type = $("#type").val();
+		/*<![CDATA[*/
+		if(type==1){
+            window.location.href="/addTree?channelname="+name+"&parentid="+parendId;
+		}else if(type==2){
+            window.location.href="/mergeTree?channelname="+uname+"&id="+parendId;
+		}else {
+            window.location.href="/mergeTree?id="+parendId+"&deleflag=Y";
+		}
+		/*]]>*/
+    })
+
+
+
+</script>
