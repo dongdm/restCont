@@ -38,7 +38,11 @@
       url, createDate, createBy, 
       updateDate, updateBy, deleFlag,type
       )
-    values ( #{code,jdbcType=VARCHAR}, #{channelname,jdbcType=VARCHAR},
+    values (
+     CONCAT('FXKZ',DATE_FORMAT(CURDATE(),'%y%m%d'),
+		LPAD((SELECT A.COUNT FROM (SELECT COUNT(*)+1 COUNT FROM
+		ba_channel WHERE LEFT(createDate,10) = CURDATE()) A),5,0)),
+      #{channelname,jdbcType=VARCHAR},
       #{grade,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
       #{url,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, 
       #{updatedate,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR}

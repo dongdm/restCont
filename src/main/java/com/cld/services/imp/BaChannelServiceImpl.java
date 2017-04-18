@@ -36,7 +36,6 @@ public class BaChannelServiceImpl implements BaChannelService {
         baChannel.setUpdateby("0");
         baChannel.setUpdatedate(date);
         baChannel.setDeleflag("N");
-        baChannel.setCode("000x");
         baChannel.setType("book");
          baChannelMapper.insert(baChannel);
     }

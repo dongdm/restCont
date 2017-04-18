@@ -28,6 +28,8 @@
 		<input type="hidden"  id="type"/>
 		<li class="name"><span class="nChannel">上级栏目 : </span><input type="text"  id="name"/></li>
 		<li class="age"><span>栏目名称: </span><input type="text" id="cName"/></li>
+		<li class="name uma"><span>地&nbsp;&nbsp;址: </span><input type="text" id="url"/></li>
+		<li class="name uma"><span>描&nbsp;&nbsp;述: </span><input type="text" id="mark"/></li>
 		<li class="sub-btn"><span class="bbt">提交</span></li>
 	</ul>
 </div>
@@ -58,9 +60,13 @@
     });
 
     function zTreeOnClick(event, treeId, treeNode) {
-        //alert(treeNode.id + ", " + treeNode.name);
+        //dosomething
 		$("#id").val(treeNode.id );
 		$("#name").val(treeNode.name);
+        $("#url").val(treeNode.link);
+        $("#mark").val(treeNode.mark);
+		//right-content   右侧
+		$(".right-content").html(treeNode.link);
     }
 
     $(".bg").click(function(){
@@ -77,12 +83,17 @@
 			var type = $(this).attr("btype");
 			var id = $("#id").val();
 			if(type==1){
+                $(".age").css("display","block");
+                $(".uma").css("display","block");
+                $(".pop-box").css("height","340px")
+				$("#url").val("");
+                $("#mark").val("");
                 if(id==null||id==''||id==undefined){
                     $("#id").val("0");
                     $("#name").val("添加根节点");
 				}
 			}else{
-                if(id==null||id==''||id==undefined){
+                if(id==null||id==''||id==undefined||id=="0"){
 						alert("请选择节点！");
 					return false;
                 }
@@ -90,11 +101,19 @@
 
             $("#type").val(type);
             if(type==2){
+                $(".uma").css("display","block");
                $(".age").css("display","none");
                $(".bbt").html("确定修改");
+                $(".pop-box").css("height","280px")
                $(".nChannel").html("栏目名称:");
 			}else if(type==3){
+                var zTree = $.fn.zTree.getZTreeObj("tree");
+                nodes = zTree.getSelectedNodes();
+                var node = nodes[0];
+                if(node.isParent){alert("请先删除子节点");  return false;}
                 $(".age").css("display","none");
+                $(".uma").css("display","none");
+                $(".pop-box").css("height","200px")
                 $(".bbt").html("确定删除");
                 $(".nChannel").html("栏目名称:");
 			}
@@ -110,13 +129,18 @@
         var uname = $("#name").val();
         var parendId= $("#id").val();
         var type = $("#type").val();
+        var url = $("#url").val();
+        var mark = $("#mark").val();
 		/*<![CDATA[*/
 		if(type==1){
-            window.location.href="/addTree?channelname="+name+"&parentid="+parendId;
+            window.location.href="/addTree?channelname="+name+"&parentid="+parendId+"&url="
+				+url+"&description="+mark;
 		}else if(type==2){
-            window.location.href="/mergeTree?channelname="+uname+"&id="+parendId;
+            window.location.href="/mergeTree?channelname="+uname+"&id="+parendId+"&url="
+				+url+"&description=" +mark;
 		}else {
             window.location.href="/mergeTree?id="+parendId+"&deleflag=Y";
+
 		}
 		/*]]>*/
     })
