@@ -11,7 +11,6 @@ public interface BaChannelService {
 
      public BaChannel findById(int id);
 
-
      public List<BaChannel> searchAll(BaChannel baChannel);
 
      void add(BaChannel baChannel);

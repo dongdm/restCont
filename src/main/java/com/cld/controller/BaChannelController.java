@@ -54,4 +54,5 @@ public class BaChannelController {
         baChannelService.merge(baChannel);
         return "redirect:/tree";
     }
+
 }

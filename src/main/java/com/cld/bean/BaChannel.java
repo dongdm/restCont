@@ -1,8 +1,12 @@
 package com.cld.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BaChannel {
+public class BaChannel implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Integer id;
 
     private String code;

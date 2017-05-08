@@ -4,6 +4,7 @@ import com.cld.bean.BaChannel;
 import com.cld.mapper.BaChannelMapper;
 import com.cld.services.BaChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,10 @@ public class BaChannelServiceImpl implements BaChannelService {
     @Autowired
     private BaChannelMapper baChannelMapper;
 
+    @Cacheable(value = "baChannelInfo")
+    @Transactional(readOnly = true,propagation = Propagation.SUPPORTS)
     public BaChannel findById(int id) {
+        System.out.print("是从数据库拿到的数据--QAQ--");
         return baChannelMapper.selectByPrimaryKey(id);
     }
 
