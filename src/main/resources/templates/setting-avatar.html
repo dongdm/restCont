@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link href="/css/basic.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/user.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="/imageselect/css/imgareaselect-default.css"/>
+    <script src="/plugin/ztree/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/js/ajaxfileupload.js"></script>
+    <script src="/imageselect/scripts/jquery.imgareaselect.pack.js"></script>
+    <style type="text/css">
+
+    </style>
+
+    <script type="text/javascript">
+
+
+    </script>
+</head>
+<body>
+<div class="setting-form">
+    <div class="error-top"  id="errortop" style="display:none" >请选择要上传的头像</div>
+    <div class="form-item clearfix">
+        <div class="head-portrait"><img src="/img/portrait.png"/></div>
+    </div>
+    <input type="hidden" name="img_intro" id="img_intro"/>
+    <div class="ipt-file photo-crop" data-img-type="img_intro">
+        上传头像 </div>
+
+</div>
+
+<!-- 图片裁剪 -->
+<div class="uploadphoto-popup s05x">
+    <div class="panel">
+        <div class="clearfix">
+            <div class="ipt-file">
+                <input style="font-size:50px" type="file" name="files" hidefocus="true" id="image_file" onchange="img_upload(2);"/>上传图片
+            </div>
+        </div>
+        <div class="error-top"  id="imgUploadError" style="display:none;"></div>
+        <div class="pup-photo">
+        </div>
+        <div class="btn">
+            <button type="button" class="submit" onclick="submitCutImg();">裁剪和保存</button>
+            <button  class="cancel">取消</button>
+            <form id="cutForm" style="display:none;">
+                <input type="text" name="srcImgPath" />
+                <input type="text" name="x1" />
+                <input type="text" name="y1" />
+                <input type="text" name="width" />
+                <input type="text" name="height" />
+                <input type="hidden" name="img_type"/>
+                <input type="hidden" name="team_num"  id="team_num"/>
+            </form>
+        </div>
+    </div>
+    <div class="mfp-bg" ></div>
+</div>
+
+</body>
+
+<script src="/js/imgUpload.js"></script>
+</html>
