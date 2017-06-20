@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cld.mapper.BaChannelContentMapper">
+  <resultMap id="BaseResultMap" type="com.cld.bean.BaChannelContent">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="channel_id" jdbcType="INTEGER" property="channelId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mark" jdbcType="VARCHAR" property="mark" />
+    <result column="createBy" jdbcType="VARCHAR" property="createby" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
+    <result column="updateDate" jdbcType="TIMESTAMP" property="updatedate" />
+    <result column="deleFlag" jdbcType="VARCHAR" property="deleflag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cld.bean.BaChannelContent">
+    <result column="describe" jdbcType="LONGVARCHAR" property="describe" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, channel_id, user_id, mark, createBy, createDate, updateBy, updateDate, deleFlag
+  </sql>
+  <sql id="Blob_Column_List">
+    describe
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ba_channel_content
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ba_channel_content
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="add" parameterType="com.cld.bean.BaChannelContent">
+    insert into ba_channel_content (channel_id, user_id,
+      mark, createBy, createDate, 
+      updateBy, updateDate, deleFlag, 
+      describe)
+    values (#{channelId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{mark,jdbcType=VARCHAR}, #{createby,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{deleflag,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cld.bean.BaChannelContent">
+    insert into ba_channel_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="mark != null">
+        mark,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="updatedate != null">
+        updateDate,
+      </if>
+      <if test="deleflag != null">
+        deleFlag,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null">
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleflag != null">
+        #{deleflag,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cld.bean.BaChannelContent">
+    update ba_channel_content
+    <set>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null">
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleflag != null">
+        deleFlag = #{deleflag,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cld.bean.BaChannelContent">
+    update ba_channel_content
+    set channel_id = #{channelId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=VARCHAR},
+      createBy = #{createby,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      deleFlag = #{deleflag,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cld.bean.BaChannelContent">
+    update ba_channel_content
+    set channel_id = #{channelId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=VARCHAR},
+      createBy = #{createby,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      deleFlag = #{deleflag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 查询实体list-->
+  <select id="searchAll" resultMap="BaseResultMap" parameterType="com.cld.bean.BaChannelContent">
+    select
+    <include refid="Base_Column_List" />
+    from ba_channel_content
+    where type = #{type,jdbcType=VARCHAR} AND  deleFlag = 'N'
+  </select>
+</mapper>
