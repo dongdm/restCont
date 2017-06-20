@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cld.mapper.BaCompChanDefMapper">
+  <resultMap id="BaseResultMap" type="com.cld.bean.BaCompChanDef">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="chan_id" jdbcType="INTEGER" property="chanId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="createBy" jdbcType="VARCHAR" property="createby" />
+    <result column="updateDate" jdbcType="TIMESTAMP" property="updatedate" />
+    <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
+    <result column="deleFlag" jdbcType="VARCHAR" property="deleflag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, chan_id, type, createDate, createBy, updateDate, updateBy, deleFlag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ba_comp_chan_def
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ba_comp_chan_def
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cld.bean.BaCompChanDef">
+    insert into ba_comp_chan_def (id, chan_id, type, 
+      createDate, createBy, updateDate, 
+      updateBy, deleFlag)
+    values (#{id,jdbcType=INTEGER}, #{chanId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cld.bean.BaCompChanDef">
+    insert into ba_comp_chan_def
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chanId != null">
+        chan_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="updatedate != null">
+        updateDate,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="deleflag != null">
+        deleFlag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chanId != null">
+        #{chanId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="deleflag != null">
+        #{deleflag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cld.bean.BaCompChanDef">
+    update ba_comp_chan_def
+    <set>
+      <if test="chanId != null">
+        chan_id = #{chanId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null">
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="deleflag != null">
+        deleFlag = #{deleflag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cld.bean.BaCompChanDef">
+    update ba_comp_chan_def
+    set chan_id = #{chanId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      createBy = #{createby,jdbcType=VARCHAR},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=VARCHAR},
+      deleFlag = #{deleflag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
