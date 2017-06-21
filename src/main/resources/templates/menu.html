@@ -4,9 +4,9 @@
 <head th:fragment="header">
     <link rel="stylesheet" href="/plugin/ztree/css/zTreeStyle/zTreeStyle.css" />
     <link rel="stylesheet" href="/css/style.css" />
-
     <script src="/plugin/ztree/js/jquery-1.4.4.min.js"></script>
     <script src="/plugin/ztree/js/jquery.ztree.core.js"></script>
+    <script src="/plugin/ztree/js/jquery.ztree.excheck.js"></script>
 </head>
 <body>
 <div class="header">风控管理系统</div>
@@ -20,7 +20,10 @@
         </div>
         <ul id="tree" class="ztree"></ul>
     </div>
-   <!-- <div class="right-content">88888</div>-->
+   <div class="right-content">
+       <textarea name="cod_static_content"  id="cod_static_content">1</textarea>
+
+   </div>
 </div>
 
 <div class="pop-box" th:fragment="pop">
@@ -40,6 +43,7 @@
 </html>
 
 <script th:inline="javascript"  th:fragment="jss">
+
     var setting = {
         data: {
             simpleData: {

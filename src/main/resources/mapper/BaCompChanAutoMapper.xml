@@ -25,10 +25,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.cld.bean.BaCompChanAuto">
-    insert into ba_comp_chan_auto (id, comp_id, chan_id, 
+    insert into ba_comp_chan_auto ( comp_id, chan_id,
       createDate, createBy, updateDate, 
       updateBy, deleFlag)
-    values (#{id,jdbcType=INTEGER}, #{compId,jdbcType=INTEGER}, #{chanId,jdbcType=INTEGER}, 
+    values (#{compId,jdbcType=INTEGER}, #{chanId,jdbcType=INTEGER},
       #{createdate,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
       #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR})
   </insert>
@@ -125,4 +125,18 @@
       deleFlag = #{deleflag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="batchInsert" useGeneratedKeys="true" parameterType="java.util.List">
+    insert into ba_comp_chan_auto (comp_id, chan_id,
+    createDate, createBy, updateDate,
+    updateBy, deleFlag)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+    (#{item.compId,jdbcType=INTEGER}, #{item.chanId,jdbcType=INTEGER},
+    #{item.createdate,jdbcType=TIMESTAMP}, #{item.createby,jdbcType=VARCHAR}, #{item.updatedate,jdbcType=TIMESTAMP},
+    #{item.updateby,jdbcType=VARCHAR}, #{item.deleflag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
 </mapper>

@@ -15,22 +15,44 @@
   <sql id="Base_Column_List">
     id, name, comp_type, product, createDate, createBy, updateDate, updateBy, deleFlag
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="search" parameterType="com.cld.bean.BaComp" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ba_comp
-    where id = #{id,jdbcType=INTEGER}
+    from ba_comp where 1=1
+    <if test="id != null">
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null">
+      and name = #{name,jdbcType=INTEGER}
+    </if>
+    <if test="comp_type != null">
+      and comp_type = #{comp_type,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="find" parameterType="com.cld.bean.BaComp" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ba_comp where 1=1
+    <if test="id != null">
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null">
+      and name = #{name,jdbcType=INTEGER}
+    </if>
+    <if test="comp_type != null">
+      and comp_type = #{comp_type,jdbcType=INTEGER}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ba_comp
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cld.bean.BaComp">
-    insert into ba_comp (id, name, comp_type, 
+  <insert id="insert" parameterType="com.cld.bean.BaComp" useGeneratedKeys="true" keyProperty="id">
+    insert into ba_comp (name, comp_type,
       product, createDate, createBy, 
       updateDate, updateBy, deleFlag
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{compType,jdbcType=VARCHAR}, 
+    values (#{name,jdbcType=VARCHAR}, #{compType,jdbcType=VARCHAR},
       #{product,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{createby,jdbcType=VARCHAR}, 
       #{updatedate,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR}
       )

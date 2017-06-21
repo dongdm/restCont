@@ -1,8 +1,13 @@
 package com.cld.bean;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class BaComp {
+public class BaComp implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Integer id;
 
     private String name;
@@ -20,6 +25,8 @@ public class BaComp {
     private String updateby;
 
     private String deleflag;
+
+    private List<Integer> chanids;
 
     public Integer getId() {
         return id;
@@ -92,4 +99,9 @@ public class BaComp {
     public void setDeleflag(String deleflag) {
         this.deleflag = deleflag == null ? null : deleflag.trim();
     }
+
+    public List<Integer> getChanids(){return chanids;}
+
+    public void setChanids(List<Integer> chanids){this.chanids = chanids;}
+
 }
