@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:include="menu::header"></head>
+<body>
+<div class="main-box">
+    <div class="main-box-box clearfix">
+        <ul>
+            <li>
+                <p>企业名称</p>
+                <input type="text" id="name"/>
+            </li>
+            <li>
+                <p>行业类型</p>
+                <input type="text" id="comp_type"/>
+            </li>
+            <li>
+                <p>产品名称</p>
+                <input type="text" id="product"/>
+            </li>
+            <li>
+                <p>节点选择</p>
+                <div class="checktree">
+                    <ul id="tree" class="ztree"></ul>
+                </div>
+            </li>
+
+        </ul>
+</div>
+    <button onclick="add()">确定</button>
+</div>
+</body>
+</html>
+<script th:inline="javascript">
+
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: 0
+            }
+        },
+        check: {
+            enable: true
+        }
+    };
+    //var ss = [[${list}]];
+    //var treeNodes = eval("("+ss+")");
+    var treeNodes = null;
+    $(document).ready(function(){
+        $.ajax({
+            type: "post",
+            url: "/treeList",    //向springboot请求数据的url
+            data: null,
+            success: function (data) {
+                treeNodes =data;
+                $.fn.zTree.init($("#tree"), setting, treeNodes);
+                var treeObj = $.fn.zTree.getZTreeObj("tree");
+                treeObj.expandAll(true);
+            }
+        });
+        DynamicUpdateNodeCheck();
+    });
+    //过滤节点的机制 直接return node表示不做任何过滤
+    function filter(node) {
+        return node;
+    }
+
+    ///动态设置zTree的所有节点有checkbox
+    function DynamicUpdateNodeCheck() {
+        var zTree = $.fn.zTree.getZTreeObj("tree");
+        //根据过滤机制获得zTree的所有节点
+        var nodes = zTree.getNodesByFilter(filter);
+        //遍历每一个节点然后动态更新nocheck属性值
+        /*<![CDATA[*/
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            node.nocheck = false; //表示显示checkbox
+            zTree.updateNode(node);
+            /*]]>*/
+        }
+    }
+
+    function  fun_getCheckValue(){
+        var zTree = $.fn.zTree.getZTreeObj("tree");
+        var nodes=zTree.getChangeCheckedNodes(true);
+        var result='';
+        /*<![CDATA[*/
+        if(nodes.length==0){
+            alert("请选择评估节点");
+            return false;
+        }
+        for (var i = 0; i < nodes.length; i++) {
+            var halfCheck = nodes[i].getCheckStatus();
+           /* if (!halfCheck.half){ 判断是否有子节点*/
+                result += nodes[i].id +',';
+           /* }*/
+        }
+        /*]]>*/
+        result=result.substring(0,result.lastIndexOf(","));
+        return result;
+    }
+
+    function add(){
+        var name=$("#name").val();
+        var compType = $("#comp_type").val();
+        var product =$("#product").val();
+        var chanids = fun_getCheckValue();
+        var data = {"name":name,"compType":compType,"product":product,"chanids":chanids}
+        $.ajax({
+            type: "post",
+            url: "/addComp",    //向springboot请求数据的url
+            data: data,
+            success: function (data) {
+                alert("添加成功")
+            }
+        });
+    }
+</script>
