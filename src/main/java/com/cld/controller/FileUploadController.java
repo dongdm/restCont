@@ -6,6 +6,7 @@ package com.cld.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.cld.comp.JSONResponse;
 import com.cld.comp.TransactionStatus;
+import com.cld.services.BaCompchanFileService;
 import com.cld.utils.ImgUtils;
 import com.cld.utils.ResponseMes;
 import org.apache.commons.logging.Log;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,9 @@ public class FileUploadController {
 	private String upFileSize;
 	@Value("${portal.uploadPath}")
 	private String serverPath;
+
+	@Autowired
+	private BaCompchanFileService baCompchanFileService;
 
 	@RequestMapping(value="/uploadFiles", method=RequestMethod.POST)
 	@ResponseBody
@@ -82,9 +87,9 @@ public class FileUploadController {
         			log.info("文件上传出错，缺少参数配置" + myfile.getName() );
         			return ResponseMes.getUploadSizeErrorResponseMes(0);
         		}
-        		
-//        		int rightSize = 5242880;
-        		int rightSize = Integer.parseInt(upFileSize);
+        		/*
+				int rightSize = Integer.parseInt(upFileSize);
+	      		int rightSize = 5242880;
             	if(!isExtAllowUpload(fileType,ext)){
 					log.info("文件上传出错" + myfile.getName() );
 					return ResponseMes.getUploadTypeErrorResponseMes(messageSource);
@@ -92,6 +97,7 @@ public class FileUploadController {
             		log.info("文件上传出错" + myfile.getName() );
             		return ResponseMes.getUploadSizeErrorResponseMes(rightSize);
             	}
+            	*/
             	//上传文件路径
             	String realPath = request.getServletContext().getRealPath("/");
             	realPath += serverPath;
@@ -124,11 +130,21 @@ public class FileUploadController {
 	            		}
 	            	}else{
 	            	*/
-	            		Map<String,Object> fileMap = new HashMap<String, Object>();
-	            		fileMap = generateResult(fileType,tempFile,fileMap);
-	            		fileMap.put("filePath", serverPath + "/" + uploadFileName);
-	            		fileMap.put("fileName", uploadFileName);
-	            		fileMap.put("fileMd5", "");
+					Map<String,Object> fileMap = new HashMap<String, Object>();
+					fileMap = generateResult(fileType,tempFile,fileMap);
+					fileMap.put("filePath", serverPath + "/" + uploadFileName);
+					fileMap.put("fileName", originalFileName);
+					fileMap.put("fileSize", myfile.getSize());
+
+	            	if(!"image".equals(fileType)){
+	            		//文件数据入库
+						HttpSession session = request.getSession();
+						String chanDataId = (String)session.getAttribute("chanDataId");
+						chanDataId = (chanDataId == null ? "1" : chanDataId);
+						int id = baCompchanFileService.insertSelective(serverPath + uploadFileName, originalFileName,
+								myfile.getSize(), chanDataId);
+						fileMap.put("id", id);
+					}
 	            		resultList.add(fileMap);
 	            	//}
 	            	

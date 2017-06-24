@@ -27,8 +27,8 @@
     delete from ba_compchan_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cld.bean.BaCompchanFile">
-    insert into ba_compchan_file (id, comp_chan_id, file_name, 
+  <insert id="insert" parameterType="com.cld.bean.BaCompchanFile" useGeneratedKeys="true" keyProperty="id" >
+    insert into ba_compchan_file (id, comp_chan_id, file_name,
       file_url, file_size, createDate, 
       createBy, updateDate, updateBy, 
       deleFlag)
@@ -37,7 +37,7 @@
       #{createby,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, 
       #{deleflag,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cld.bean.BaCompchanFile">
+  <insert id="insertSelective" parameterType="com.cld.bean.BaCompchanFile" useGeneratedKeys="true" keyProperty="id" >
     insert into ba_compchan_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

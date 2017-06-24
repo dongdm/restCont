@@ -152,7 +152,7 @@ public class ImgUtils {
 					 BufferedImage tempImg = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
 					 tempImg.getGraphics().drawImage(subImg.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0,null);
 					 ImageIO.write(tempImg, imgType, new File(tarPath));
-				 }else{                 
+				 }else{
 					 ImageIO.write(subImg,imgType,new File(tarPath));
 			 	 } 
 			 }
