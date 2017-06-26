@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/plugin/ztree/js/jquery-1.4.4.min.js"></script>
+</head>
+<body>
+<div class="main-box">
+    <div class="main-box-box clearfix">
+        <!--<button class="addBtn">添加</button>-->
+        <h2 class="comptitle">企业列表</h2>
+        <table class="do-table">
+            <tr>
+                <th>企业名称</th>
+                <th>类型</th>
+                <th>产品</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="comp,copmStar:${baCompList}">
+                <td th:text="${comp.name}"></td>
+                <td th:text="${comp.compType}"></td>
+                <td th:text="${comp.product}"></td>
+                <td th:id="${comp.id}" onclick="gopg(this)" class="pg">评估</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+<script th:inline="javascript">
+   function gopg1(obj){
+       var id = $(obj).attr("id");
+       ajax({
+           type: "post",
+           url: "/treeList",    //向springboot请求数据的url
+           data: null,
+           success: function (data) {
+
+           }
+       })
+   }
+</script>
