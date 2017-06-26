@@ -10,6 +10,12 @@
     <result column="updateDate" jdbcType="TIMESTAMP" property="updatedate" />
     <result column="updateBy" jdbcType="VARCHAR" property="updateby" />
     <result column="deleFlag" jdbcType="VARCHAR" property="deleflag" />
+    <association property="baChannel" column="chan_id" javaType="com.cld.bean.BaChannel">
+      <id property="id" column="b_id" />
+      <result property="channelname" column="channelName" />
+      <result property="parentid" column="parentId" />
+      <result property="url" column="url" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     id, comp_id, chan_id, createDate, createBy, updateDate, updateBy, deleFlag
@@ -138,5 +144,13 @@
     </foreach>
   </insert>
 
+  <!--根据公司ID查找对应节点-->
+  <select id="selectByCompId" parameterType="com.cld.bean.BaCompChanAuto" resultMap="BaseResultMap">
+    select
+    a.id, a.comp_id, a.chan_id,
+    b.id b_id, b.channelName, b.parentId, b.url
+    from ba_comp_chan_auto a left join ba_channel b
+    on a.chan_id = b.id
+  </select>
 
 </mapper>

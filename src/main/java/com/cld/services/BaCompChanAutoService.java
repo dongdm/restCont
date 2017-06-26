@@ -14,4 +14,6 @@ public interface BaCompChanAutoService {
     void batchAdd(List<BaCompChanAuto> baCompChanAutoList);
 
     void merge(BaCompChanAuto baCompChanAuto);
+
+    List<BaCompChanAuto> queryByCompId(String compId);
 }

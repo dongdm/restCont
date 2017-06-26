@@ -115,11 +115,40 @@
 </div>
 </body>
 </html>
-<script th:inline="javascript" th:include="menu::jss"></script>
 <script type="text/javascript" src="/js/ajaxfileupload.js"></script>
 <script src="/imageselect/scripts/jquery.imgareaselect.pack.js"></script>
 <script src="/js/fileUpload.js"></script>
 <script type="text/javascript">
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: 0
+            }
+        },
+        callback: {
+            onClick: null
+        }
+    };
+    //var ss = [[${list}]];
+    //var treeNodes = eval("("+ss+")");
+    var treeNodes = null;
+    $(document).ready(function(){
+        $.ajax({
+            type: "post",
+            url: "/score/chanData",    //向springboot请求数据的url
+            data: null,
+            success: function (data) {
+                treeNodes =data;
+                $.fn.zTree.init($("#tree"), setting, treeNodes);
+                var treeObj = $.fn.zTree.getZTreeObj("tree");
+                treeObj.expandAll(true);
+            }
+        });
+    });
+
 	//添加描述
 	function add_compChanData(obj){
 		var content = $('textarea[name="compChanData"]').val();

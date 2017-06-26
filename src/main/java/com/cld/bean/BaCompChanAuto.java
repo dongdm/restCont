@@ -19,6 +19,8 @@ public class BaCompChanAuto {
 
     private String deleflag;
 
+    private BaChannel baChannel;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class BaCompChanAuto {
 
     public void setDeleflag(String deleflag) {
         this.deleflag = deleflag == null ? null : deleflag.trim();
+    }
+
+    public BaChannel getBaChannel() {
+        return baChannel;
+    }
+
+    public void setBaChannel(BaChannel baChannel) {
+        this.baChannel = baChannel;
     }
 }

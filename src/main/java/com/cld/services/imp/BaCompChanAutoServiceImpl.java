@@ -32,4 +32,12 @@ public class BaCompChanAutoServiceImpl implements BaCompChanAutoService {
 
         baCompChanAutoMapper.updateByPrimaryKeySelective(baCompChanAuto);
     }
+
+    @Override
+    public List<BaCompChanAuto> queryByCompId(String compId) {
+        BaCompChanAuto baCompChanAuto = new BaCompChanAuto();
+        Integer compIdInt = new Integer(compId);
+        baCompChanAuto.setCompId(compIdInt);
+        return baCompChanAutoMapper.selectByCompId(baCompChanAuto);
+    }
 }

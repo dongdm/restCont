@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <head th:include="menu::header"></head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/css/basic.css" rel="stylesheet" type="text/css"/>
+    <style style="text/css">
+        input{
+            border: none; border-bottom: solid 1px lightgray;background-color: transparent;
+        }
+        .tdDiv{
+            width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;
+        }
+        .trDiv{
+            width:100%;height: 30px;padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">风控管理系统</div>
+<div class="right-content" style="margin-left: 20%;">
+    <div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
+        <div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">评分</div>
+        <div style="width: 20%;float: left;padding-top: 20px;">
+            <div style="width:30%;height: 30px;margin: 0;padding: 0;float: left;">总分：</div>
+            <div id="totalScore" style="width:20%;height: 30px;margin: 0;padding: 0;float: left;">0</div>
+        </div>
+    </div>
+    <div class="clearfix" style="height: 10px;"></div>
+    <div style="width:100%;height: 30px;background-color: lightgray;padding-left: 10px;">
+        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评级指标</div>
+        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">权重</div>
+        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评分</div>
+        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">备注</div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="trDiv" style="font-weight: bold;">
+        <div class="tdDiv">政治和法律环境</div>
+        <div class="tdDiv">5分</div>
+        <div class="tdDiv">--</div>
+        <div class="tdDiv">--</div>
+    </div>
+
+    <div class="trDiv">
+        <div class="tdDiv">区域风险（内贸企业适用）</div>
+        <div class="tdDiv itemScore">5</div>
+        <div class="tdDiv">
+            <input type="text" class="score"/>
+        </div>
+        <div class="tdDiv">
+            <input type="text"/>
+        </div>
+    </div>
+
+    <div class="trDiv">
+        <div class="tdDiv">区域风险（内贸企业适用）</div>
+        <div class="tdDiv itemScore">5</div>
+        <div class="tdDiv">
+            <input type="text" class="score"/>
+        </div>
+        <div class="tdDiv">
+            <input type="text"/>
+        </div>
+    </div>
+
+    <div class="trDiv">
+        <div class="tdDiv">区域风险（内贸企业适用）</div>
+        <div class="tdDiv itemScore">5</div>
+        <div class="tdDiv">
+            <input type="text" class="score"/>
+        </div>
+        <div class="tdDiv">
+            <input type="text"/>
+        </div>
+    </div>
+</div>
+</body>
+<script type="application/javascript">
+    $('.score').live('blur',function(){
+        var score = $(this).val();
+        var reg = /\d/;
+        if(reg.test(score)){
+            var total = $('#totalScore').text();
+            total = parseInt(total) + parseInt(score);
+            $('#totalScore').text(total);
+        }else{
+            if(score){
+                alert('分数输入有误');
+            }
+        }
+        console.info(score);
+    })
+
+</script>
+</html>

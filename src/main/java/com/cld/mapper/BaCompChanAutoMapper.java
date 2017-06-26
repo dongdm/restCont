@@ -20,4 +20,6 @@ public interface BaCompChanAutoMapper {
     int updateByPrimaryKey(BaCompChanAuto record);
 
     int batchInsert(List<BaCompChanAuto> record);
+
+    List<BaCompChanAuto> selectByCompId(BaCompChanAuto record);
 }
