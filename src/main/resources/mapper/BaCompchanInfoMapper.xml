@@ -26,7 +26,7 @@
     delete from ba_compchan_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cld.bean.BaCompchanInfo">
+  <insert id="insert" parameterType="com.cld.bean.BaCompchanInfo" useGeneratedKeys="true" keyProperty="id">
     insert into ba_compchan_info (id, comp_chan_id, info_key, 
       info_value, createDate, createBy, 
       updateDate, updateBy, deleFlag
@@ -36,7 +36,7 @@
       #{updatedate,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cld.bean.BaCompchanInfo">
+  <insert id="insertSelective" parameterType="com.cld.bean.BaCompchanInfo" useGeneratedKeys="true" keyProperty="id">
     insert into ba_compchan_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

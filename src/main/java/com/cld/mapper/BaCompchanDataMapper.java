@@ -1,7 +1,9 @@
 package com.cld.mapper;
 
 import com.cld.bean.BaCompchanData;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface BaCompchanDataMapper {
     int deleteByPrimaryKey(Integer id);
 

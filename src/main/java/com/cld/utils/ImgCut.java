@@ -17,8 +17,10 @@ public class ImgCut {
 
 	@NotNull(message="头像不能为空")
 	private String srcImgPath;
+	private String srcImgName;
 	
 	private String tarImgPath;
+	private String tarImgSize;
 	@NotNull(message="裁剪x坐标不能为空")
 	private Integer x1;
 	@NotNull(message="裁剪y坐标不能为空")
@@ -167,9 +169,25 @@ public class ImgCut {
 		this.tarImgPath = tarImgPath;
 	}
 
+	public String getSrcImgName() {
+		return srcImgName;
+	}
+
+	public void setSrcImgName(String srcImgName) {
+		this.srcImgName = srcImgName;
+	}
+
+	public String getTarImgSize() {
+		return tarImgSize;
+	}
+
+	public void setTarImgSize(String tarImgSize) {
+		this.tarImgSize = tarImgSize;
+	}
+
 	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+         * @see java.lang.Object#toString()
+         */
 	@Override
 	public String toString() {
 		return "Img [x1=" + x1 + ", y1=" + y1 + ", x2=" + x2 + ", y2=" + y2

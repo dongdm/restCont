@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<head th:include="menu::header"></head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link href="/css/basic.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/user.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="/imageselect/css/imgareaselect-default.css"/>
+	<style type="text/css">
+		.del_compChanData{}
+	</style>
+</head>
+<body>
+<div class="header">风控管理系统</div>
+<div th:include="menu::menubox"></div>
+<div class="right-content" style="margin-top:10px">
+	<form th:action="@{/}">
+		<div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
+			<div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">证件照</div>
+			<div style="width: 20%;float: left;padding-top: 10px;">
+				<div class="ipt-file photo-crop" data-img-type="img_intro" style="height: 30px;margin: 0;padding: 0;">上传</div>
+			</div>
+		</div>
+		<div>
+			<div class="setting-form">
+				<div class="error-top"  id="errortop" style="display:none" >请选择要上传的证件照</div>
+				<div class="form-item clearfix" id="minimglist">
+
+				</div>
+			</div>
+
+		</div>
+		<div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
+			<div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">附件</div>
+			<div style="width: 100px;float: left;padding-top: 10px;height: 30px;">
+				<div class="ipt-file" style="height: 30px;margin: 0;padding: 0;">
+					<input style="font-size:50px" type="file" name="files" hidefocus="true" id="data_file" onchange="file_upload(2);"/>上传附件
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div id="fileList" style="margin-top: 30px;">
+
+
+		</div>
+		<div class="clearfix"></div>
+		<div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
+			<div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">要素</div>
+			<div style="width: 20%;float: right;padding-top: 10px;">
+				<div class="ipt-file"  style="height: 30px;margin: 0;padding: 0;" onclick="add_compChanInfo()">添加</div>
+			</div>
+		</div>
+		<div style="margin-top: 30px;" id="compChanDataList">
+
+		</div>
+		<div class="clearfix"></div>
+		<div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
+			<div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">描述</div>
+			<div style="width: 20%;float: right;padding-top: 10px;">
+				<div class="ipt-file"  style="height: 30px;margin: 0;padding: 0;" onclick="add_compChanData(this);">保存</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="row" style="margin-top: 10px;">
+			<textarea placeholder="描述" style="width: 100%;min-height: 10rem;" name="compChanData"></textarea>
+		</div>
+	</form>
+</div>
+
+<!-- 图片裁剪 -->
+<div class="uploadphoto-popup s05x">
+	<div class="panel">
+		<div class="clearfix">
+			<div class="ipt-file">
+				<input style="font-size:50px" type="file" name="files" hidefocus="true" id="image_file" onchange="img_upload(2);"/>上传图片
+			</div>
+		</div>
+		<div class="error-top"  id="imgUploadError" style="display:none;"></div>
+		<div class="pup-photo">
+		</div>
+		<div class="btn">
+			<button type="button" class="submit" onclick="submitCutImg();">裁剪和保存</button>
+			<button  class="cancel" onclick="cancleImgBox();">取消</button>
+			<form id="cutForm" style="display:none;">
+				<input type="text" name="srcImgPath" />
+				<input type="text" name="x1" />
+				<input type="text" name="y1" />
+				<input type="text" name="width" />
+				<input type="text" name="height" />
+				<input type="hidden" name="img_type"/>
+				<input type="hidden" name="team_num"  id="team_num"/>
+			</form>
+		</div>
+	</div>
+	<div class="mfp-bg" ></div>
+</div>
+<!--要素添加模板-->
+<div id="compChanDataTemp" style="display: none;">
+	<div style="margin-top: 10px;">
+		<div style="width: 30%;float: left;" class="compChanKeyBox">
+			<input name="compChanKey" placeholder="名称"/>
+		</div>
+		<div style="width: 30%;float: left" class="compChanValBox">
+			<input name="compChanVal" placeholder="值"/>
+		</div>
+		<div style="width: 30%;float:left;">
+			<div class="ipt-file save_compChanData" style="height: 30px;margin: 0;padding: 0;width: 50px;margin-right: 10px;">保存</div>
+			<div class="ipt-file edit_compChanData" style="height: 30px;margin: 0;padding: 0;width: 50px;margin-right: 10px;">编辑</div>
+			<div class="ipt-file del_compChanData" style="height: 30px;margin: 0;padding: 0;width: 50px;margin-right: 10px;">删除</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+</body>
+</html>
+<script th:inline="javascript" th:include="menu::jss"></script>
+<script type="text/javascript" src="/js/ajaxfileupload.js"></script>
+<script src="/imageselect/scripts/jquery.imgareaselect.pack.js"></script>
+<script src="/js/fileUpload.js"></script>
+<script type="text/javascript">
+	//添加描述
+	function add_compChanData(obj){
+		var content = $('textarea[name="compChanData"]').val();
+        var url = "/compChanData/save";
+        var data = {"content": content};
+		console.info(content);
+		var id = $(obj).attr("chandataid");
+		if(id){
+		    //存在id，为修改操作
+			url = "/compChanData/edit";
+            data.id = id;
+		}
+        $.ajax({
+            url: url,
+            data: data,
+            type: 'POST',
+            dataType: 'text',
+            success: function (data) {
+                console.log(data);
+                var msg = eval('(' + data + ')');
+                var replyCode = msg.trans.replyCode;
+                if (replyCode == "0000") {
+                    console.info("信息保持成功:" + msg.data);
+                    $(obj).attr("chandataid", msg.data.id);
+                }else{
+                    console.error("信息保存失败")
+                }
+            }
+        });
+	}
+
+	//添加要素
+	function add_compChanInfo(){
+	    var html = $("#compChanDataTemp").html();
+	    $("#compChanDataList").prepend(html);
+	}
+
+	$('.del_compChanData').live('click',function(){
+	    var currTr = $(this).parent().parent();
+        var compChanKeyBox = currTr.find('.compChanKeyBox');
+        var url = "/compChaninfo/del";
+        var id = compChanKeyBox.attr("chandatainfoid");
+        var data = {"id": id};
+        $.ajax({
+            url: url,
+            data: data,
+            type: 'POST',
+            dataType: 'text',
+            success: function (data) {
+                console.log(data);
+                var msg = eval('(' + data + ')');
+                var replyCode = msg.trans.replyCode;
+                if (replyCode == "0000") {
+                    currTr.remove();
+                }else{
+                    console.error("信息保存失败")
+                }
+            }
+        });
+	});
+
+
+    $('.save_compChanData').live('click',function(){
+        var compChanKeyBox = $(this).parent().parent().find('.compChanKeyBox');
+        var compChanValBox = $(this).parent().parent().find('.compChanValBox');
+		if(compChanKeyBox.find('input').length == 0){
+		    return  ;
+		}
+        var compChanKey = compChanKeyBox.find('input').val().trim();
+        var compChanVal = compChanValBox.find('input').val().trim();
+        if(!compChanKey){
+            alert("请输入名称");
+            return false;
+        }
+        if(!compChanVal){
+            alert("请输入值");
+            return false;
+        }
+        var data = {"key": compChanKey, "value": compChanVal};
+        var url = "/compChaninfo/save";
+        var id = compChanKeyBox.attr("chandatainfoid");
+        console.info("id:" + id)
+        if(id){
+            //存在ID为修改操作
+			data.id = id;
+            url = "/compChaninfo/edit";
+		}
+        $.ajax({
+            url: url,
+            data: data,
+            type: 'POST',
+            dataType: 'text',
+            success: function (data) {
+                console.log(data);
+                var msg = eval('(' + data + ')');
+                var replyCode = msg.trans.replyCode;
+                if (replyCode == "0000") {
+                    compChanKeyBox.html(compChanKey);
+                    compChanValBox.html(compChanVal);
+                    compChanKeyBox.attr("chanDataInfoId", msg.data.id);
+                }else{
+                    console.error("信息保存失败")
+                }
+            }
+        });
+    });
+
+	$('.edit_compChanData').live('click', function(){
+        var compChanKeyBox = $(this).parent().parent().find('.compChanKeyBox');
+        var compChanValBox = $(this).parent().parent().find('.compChanValBox');
+        console.info(compChanKeyBox.find('input').length);
+        if(compChanKeyBox.find('input').length != 0){
+            return ;
+        }
+        var compChanKey = compChanKeyBox.text().trim();
+        var compChanVal = compChanValBox.text().trim();
+        if(!compChanKey){
+            alert("请输入名称");
+            return false;
+        }
+        if(!compChanVal){
+            alert("请输入值");
+            return false;
+        }
+        var compChanKeyInput = '<input name="compChanKey" placeholder="名称" value="' + compChanKey + '"/>';
+        var compChanValInput = '<input name="compChanVal" placeholder="值" value="' + compChanVal + '"/>';
+        compChanKeyBox.html(compChanKeyInput);
+        compChanValBox.html(compChanValInput);
+	});
+
+
+</script>
