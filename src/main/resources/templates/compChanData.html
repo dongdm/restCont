@@ -171,7 +171,7 @@
                 var msg = eval('(' + data + ')');
                 var replyCode = msg.trans.replyCode;
                 if (replyCode == "0000") {
-                    console.info("信息保持成功:" + msg.data);
+                    console.info("信息保存成功:" + msg.data);
                     $(obj).attr("chandataid", msg.data.id);
                 }else{
                     console.error("信息保存失败")

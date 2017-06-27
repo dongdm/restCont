@@ -25,7 +25,7 @@
     delete from ba_compchan_score
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.cld.bean.BaCompchanScore">
+  <insert id="insert" parameterType="com.cld.bean.BaCompchanScore" useGeneratedKeys="true" keyProperty="id">
     insert into ba_compchan_score (id, comp_chan_id, score, 
       node_name, createDate, createBy, 
       updateDate, updateBy, deleFlag
@@ -35,7 +35,7 @@
       #{updatedate,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, #{deleflag,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cld.bean.BaCompchanScore">
+  <insert id="insertSelective" parameterType="com.cld.bean.BaCompchanScore" useGeneratedKeys="true" keyProperty="id">
     insert into ba_compchan_score
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

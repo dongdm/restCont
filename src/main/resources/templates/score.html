@@ -11,87 +11,208 @@
             border: none; border-bottom: solid 1px lightgray;background-color: transparent;
         }
         .tdDiv{
-            width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;
+            width:20%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;
+        }
+        .tdDiv button{
+            width: 60px;height: 20px;margin: 0;padding: 0;margin-right: 5px;
         }
         .trDiv{
             width:100%;height: 30px;padding-left: 10px;
+        }
+        .editButton{
+            display: none;
         }
     </style>
 </head>
 <body>
 <div class="header">风控管理系统</div>
-<div class="right-content" style="margin-left: 20%;">
+<div th:include="menu::menubox"></div>
+<div class="right-content" id="scoreDiv">
     <div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
         <div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">评分</div>
         <div style="width: 20%;float: left;padding-top: 20px;">
-            <div style="width:30%;height: 30px;margin: 0;padding: 0;float: left;">总分：</div>
+            <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;">总分：</div>
             <div id="totalScore" style="width:20%;height: 30px;margin: 0;padding: 0;float: left;">0</div>
+            <div style="width:30%;height: 25px;margin: 0;padding: 0;float: left;">得分：</div>
+            <div id="myScore" style="width:20%;height: 30px;margin: 0;padding: 0;float: left;">0</div>
         </div>
     </div>
     <div class="clearfix" style="height: 10px;"></div>
     <div style="width:100%;height: 30px;background-color: lightgray;padding-left: 10px;">
-        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评级指标</div>
-        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">权重</div>
-        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评分</div>
-        <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">备注</div>
+        <div style="width:20%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评级指标</div>
+        <div style="width:20%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">权重/分</div>
+        <div style="width:20%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评分</div>
+        <div style="width:20%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">备注</div>
+        <div style="width:20%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">操作</div>
     </div>
     <div class="clearfix"></div>
-    <div class="trDiv" style="font-weight: bold;">
-        <div class="tdDiv">政治和法律环境</div>
-        <div class="tdDiv">5分</div>
-        <div class="tdDiv">--</div>
-        <div class="tdDiv">--</div>
-    </div>
+    <div id="scoreForm" >
 
-    <div class="trDiv">
-        <div class="tdDiv">区域风险（内贸企业适用）</div>
-        <div class="tdDiv itemScore">5</div>
-        <div class="tdDiv">
-            <input type="text" class="score"/>
-        </div>
-        <div class="tdDiv">
-            <input type="text"/>
-        </div>
-    </div>
-
-    <div class="trDiv">
-        <div class="tdDiv">区域风险（内贸企业适用）</div>
-        <div class="tdDiv itemScore">5</div>
-        <div class="tdDiv">
-            <input type="text" class="score"/>
-        </div>
-        <div class="tdDiv">
-            <input type="text"/>
-        </div>
-    </div>
-
-    <div class="trDiv">
-        <div class="tdDiv">区域风险（内贸企业适用）</div>
-        <div class="tdDiv itemScore">5</div>
-        <div class="tdDiv">
-            <input type="text" class="score"/>
-        </div>
-        <div class="tdDiv">
-            <input type="text"/>
-        </div>
     </div>
 </div>
 </body>
-<script type="application/javascript">
+<script  th:inline="javascript">
+    /*<![CDATA[*/
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: 0
+            }
+        },
+        callback: {
+            onClick: null
+        }
+    };
+    var compId = [[${compId}]];
+    console.info(compId);
+    //var ss = [[${list}]];
+    //var treeNodes = eval("("+ss+")");
+    var treeNodes = null;
+    var treeObj = null;
+    $(document).ready(function(){
+        $.ajax({
+            type: "post",
+            url: "/score/chanData",    //向springboot请求数据的url
+            data: "compId=" + compId,
+            success: function (data) {
+                treeNodes =data;
+                $.fn.zTree.init($("#tree"), setting, treeNodes);
+                treeObj = $.fn.zTree.getZTreeObj("tree");
+                treeObj.expandAll(true);
+                var nodes = treeObj.getNodes();
+                readNodes(nodes);
+                $('#totalScore').text(totalScore);
+                getScore(nodes);
+            }
+        });
+    });
+    var totalScore = 0;
+    var baseScore = 3;
+
+    function readNodes(nodes) {
+        $.each(nodes, function(index, node) {
+            if(node){
+                if(node.isParent){
+                    var trBoldDiv = '<div class="trDiv" style="font-weight: bold;">' +
+                        '<div class="tdDiv">' + node.name + '</div>' +
+                        '<div class="tdDiv" id="id_'+ node.id +'">0</div>' +
+                        '<div class="tdDiv">--</div>' +
+                        '<div class="tdDiv">--</div>' +
+                        '<div class="tdDiv">--</div>' +
+                        '</div>';
+                    $('#scoreForm').append(trBoldDiv);
+                    readNodes(node.children);
+                }else{
+                    var trLightDiv = '<div class="trDiv">' +
+                        '<div class="tdDiv">' + node.name + node.getParentNode().id +'</div>' +
+                        '<div class="tdDiv">'+ baseScore +'</div>' +
+                        '<div class="tdDiv currScore"><input type="text" class="score" name="score"/>' +
+                        '</div>' +
+                        '<div class="tdDiv currDesc"><input type="text" name="desc"/></div>' +
+                        '<div class="tdDiv">' +
+                        '<input type="hidden" name="compChanId" value="'+ node.pkId +'"/>' +
+                        '<button onclick="saveScore(this);" class="saveButton">保存' +
+                        '</button><button class="editButton">修改</button> </div>' +
+                        '</div>';
+                    $('#scoreForm').append(trLightDiv);
+                    totalScore += baseScore;
+                }
+            }
+        });
+    }
+
+    function saveScore(obj){
+        var trDiv = $(obj).parent().parent();
+        console.info("trDiv:" + trDiv.html());
+        var compChanId = $(trDiv).find('input[name="compChanId"]').val();
+        var score = $(trDiv).find('input[name="score"]').val();
+        var desc = $(trDiv).find('input[name="desc"]').val();
+        var data = {"compChanId": compChanId, "score": score, "desc": desc};
+        var data_id = trDiv.attr("data-id");
+        var url = "/score/save";
+        if(data_id){
+            url = '/score/edit';
+            data.id = data_id;
+        }
+        console.info(url);
+        $.ajax({
+            type: "post",
+            url: url,    //向springboot请求数据的url
+            data: data,
+            success: function (data) {
+                var msg = eval('(' + data + ')');
+                var replyCode = msg.trans.replyCode;
+                if (replyCode == "0000") {
+                    console.info("信息保存成功:" + msg.data);
+                    $(trDiv).find('input[name="score"]').parent().html(msg.data.score);
+                    $(trDiv).find('input[name="desc"]').parent().html(msg.data.nodeName);
+                    $(trDiv).attr('data-id', msg.data.id);
+                    $(obj).hide();
+                    $(trDiv).find('.editButton').show();
+                }else{
+                    console.info("信息保存失败:" + msg.data);
+                }
+            }
+        });
+    }
+
+    $('.editButton').live('click', function(){
+        var trDiv = $(this).parent().parent();
+        var currScore = trDiv.find('.currScore');
+        var score = currScore.html();
+        var currDesc = trDiv.find('.currDesc');
+        var desc = currDesc.html();
+        currScore.html('<input type="text" class="score" name="score" value="' + score + '"/>');
+        currDesc.html('<input type="text" name="desc" value="' + desc + '"/>');
+        $(this).hide();
+        $(trDiv).find('.saveButton').show();
+    });
+
+    function getScore(nodes){
+        $.each(nodes, function(index, node) {
+            if(node){
+                if(node.isParent){
+                    getScore(node.children);
+                }else {
+                    clacScore(node);
+                }
+            }
+        });
+    }
+
+    function clacScore(node){
+        do{
+            var parentNode = node.getParentNode();
+            var parentEle = $('#id_' + parentNode.id);
+            var parentScore = parseInt(parentEle.text());
+            console.info('parentScore:' + parentEle.text());
+            parentScore += baseScore;
+            parentEle.text(parentScore);
+            node = parentNode;
+        }while (node.getParentNode());
+    }
+
     $('.score').live('blur',function(){
         var score = $(this).val();
+        var flag = $(this).parent().siblings().eq(1).text();
         var reg = /\d/;
         if(reg.test(score)){
-            var total = $('#totalScore').text();
+            if(parseInt(score) < 0 || parseInt(score) > parseInt(flag)){
+                alert('分数输入有误');
+                return ;
+            }
+            var total = $('#myScore').text();
             total = parseInt(total) + parseInt(score);
-            $('#totalScore').text(total);
+            $('#myScore').text(total);
         }else{
             if(score){
                 alert('分数输入有误');
             }
         }
-        console.info(score);
     })
-
+    /*]]>*/
 </script>
 </html>
