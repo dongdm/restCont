@@ -3,6 +3,7 @@ package com.cld.services;
 import com.cld.bean.BaCompchanFile;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by dong on 2017/6/23.
@@ -22,4 +23,6 @@ public interface BaCompchanFileService {
     int updateByPrimaryKeySelective(BaCompchanFile record);
 
     int updateByPrimaryKey(BaCompchanFile record);
+
+    List<BaCompchanFile> selectByCompchanId(String compChanId);
 }

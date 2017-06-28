@@ -57,4 +57,12 @@ public class BaCompchanDataServiceImpl implements BaCompchanDataService {
     public int updateByPrimaryKey(BaCompchanData record) {
         return 0;
     }
+
+    @Override
+    public BaCompchanData selectByCompchanId(String compchanId) {
+        BaCompchanData record = new BaCompchanData();
+        record.setCompChanId(new Integer(compchanId));
+        record = mapper.selectByOther(record);
+        return record;
+    }
 }

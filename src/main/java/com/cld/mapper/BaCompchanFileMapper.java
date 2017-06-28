@@ -3,6 +3,8 @@ package com.cld.mapper;
 import com.cld.bean.BaCompchanFile;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface BaCompchanFileMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface BaCompchanFileMapper {
     int updateByPrimaryKeySelective(BaCompchanFile record);
 
     int updateByPrimaryKey(BaCompchanFile record);
+
+    List<BaCompchanFile> selectByOther(BaCompchanFile record);
 }

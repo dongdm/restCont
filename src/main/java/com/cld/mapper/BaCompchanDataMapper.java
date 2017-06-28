@@ -18,4 +18,6 @@ public interface BaCompchanDataMapper {
     int updateByPrimaryKeyWithBLOBs(BaCompchanData record);
 
     int updateByPrimaryKey(BaCompchanData record);
+
+    BaCompchanData selectByOther(BaCompchanData record);
 }

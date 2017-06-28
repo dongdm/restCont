@@ -32,10 +32,8 @@ public class BaCompchanInfoController {
     public String save(HttpServletRequest request, HttpServletResponse response){
         String key = request.getParameter("key");
         String value = request.getParameter("value");
-        HttpSession session = request.getSession();
-        String chanDataId = (String)session.getAttribute("chanDataId");
-        chanDataId = (chanDataId == null ? "1" : chanDataId);
-        BaCompchanInfo record = baCompchanDataService.insertSelective(key, value, chanDataId);
+        String compchanId = request.getParameter("compchanId");
+        BaCompchanInfo record = baCompchanDataService.insertSelective(key, value, compchanId);
         JSONResponse jsonResponse = new JSONResponse();
         //响应状态
         TransactionStatus trans = new TransactionStatus();

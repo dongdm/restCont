@@ -23,6 +23,17 @@
     from ba_compchan_file
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByOther" parameterType="com.cld.bean.BaCompchanFile" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ba_compchan_file
+    where 1 = 1
+    <if test="compChanId != null">
+        and comp_chan_id = #{compChanId, jdbcType=INTEGER}
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ba_compchan_file
     where id = #{id,jdbcType=INTEGER}

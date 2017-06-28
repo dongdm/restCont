@@ -66,10 +66,10 @@ public class FileUploadController {
     	String isUpload2OSS = request.getParameter("flag");
     	//判断上传文件类型(图片或非图片)
     	String fileType = request.getParameter("type");
-    	if(null == isUpload2OSS || null == fileType){
+		String compchanId = request.getParameter("compchanId");
+    	if(null == isUpload2OSS || null == fileType || null == compchanId){
 			return ResponseMes.getUploadTypeErrorResponseMes(messageSource);
     	}
-		
 		JSONResponse jsonResponse = new JSONResponse();
 		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
         for(MultipartFile myfile : files){  
@@ -138,11 +138,8 @@ public class FileUploadController {
 
 	            	if(!"image".equals(fileType)){
 	            		//文件数据入库
-						HttpSession session = request.getSession();
-						String chanDataId = (String)session.getAttribute("chanDataId");
-						chanDataId = (chanDataId == null ? "1" : chanDataId);
 						int id = baCompchanFileService.insertSelective(serverPath + uploadFileName, originalFileName,
-								myfile.getSize(), chanDataId);
+								myfile.getSize(), compchanId);
 						fileMap.put("id", id);
 					}
 	            		resultList.add(fileMap);

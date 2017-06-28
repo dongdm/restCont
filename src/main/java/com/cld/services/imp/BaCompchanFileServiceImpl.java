@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by dong on 2017/6/23.
@@ -58,5 +59,12 @@ public class BaCompchanFileServiceImpl implements BaCompchanFileService {
     @Override
     public int updateByPrimaryKey(BaCompchanFile record) {
         return 0;
+    }
+
+    @Override
+    public List<BaCompchanFile> selectByCompchanId(String compChanId) {
+        BaCompchanFile record = new BaCompchanFile();
+        record.setCompChanId(new Integer(compChanId));
+        return mapper.selectByOther(record);
     }
 }

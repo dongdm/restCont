@@ -61,12 +61,10 @@ public class ImgCutController {
                 Map<String,Object> fileMap = ossFileService.uploadAndGetFromOSS(tempFile,
                         aliyun_oss_img_open_bucket, aliyun_oss_img_open_folder);
                 */
-                HttpSession session = request.getSession();
-                String chanDataId = (String)session.getAttribute("chanDataId");
-                chanDataId = (chanDataId == null ? "1" : chanDataId);
+                String compchanId = request.getParameter("compchanId");
                 File tempFile = new File(imgCut.getTarImgPath());
                 String path = imgCut.getTarImgPath().replace(rootPath, "");
-                int id = baCompchanFileService.insertSelective(path, imgCut.getSrcImgName(),chanDataId);
+                int id = baCompchanFileService.insertSelective(path, imgCut.getSrcImgName(),compchanId);
                 Map<String,Object> fileMap = new HashMap<String,Object>();
                 fileMap.put("fileName", "");
                 fileMap.put("filePath", path);

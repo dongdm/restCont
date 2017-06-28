@@ -36,7 +36,7 @@ public class BaCompchanScoreController {
     @RequestMapping(value = {"/", ""})
     public String score(Model model, HttpServletRequest request){
         String compId = request.getParameter("compId");
-        compId = "13";
+        compId = null == compId ? "13" : compId;
         model.addAttribute("compId", compId);
         return "score";
     }

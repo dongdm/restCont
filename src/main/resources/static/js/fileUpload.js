@@ -203,6 +203,12 @@ function ajaxFileUpload(fileElementId,type,param,fileType)
     if(!param){
         param = 1;
     }
+    var compchanId = $('#contentTitle').attr('compchanId');
+    console.info(compchanId);
+    if(!compchanId){
+        alert('请选择节点项');
+        return false;
+    }
     //文件类型
     if(!fileType){
         fileType = "image";
@@ -214,7 +220,7 @@ function ajaxFileUpload(fileElementId,type,param,fileType)
             secureuri:false,
             fileElementId:fileElementId,
             dataType: 'text',
-            data:{"flag":param,"type":fileType},
+            data:{"flag":param,"type":fileType, "compchanId": compchanId},
             success: function (data, status)
             {
                 data = data.replace("<pre>","");
@@ -269,6 +275,8 @@ function submitCutImg(){
 
     var int_business=$("#int_business").val();
     var url = '/imgCutUpload';
+    var compchanId = $('#contentTitle').attr('compchanId');
+    data.compchanId = compchanId;
     /*
     if("img_intro" == imgType){
         //修改头像和图像上传

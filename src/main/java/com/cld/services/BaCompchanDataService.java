@@ -21,4 +21,6 @@ public interface BaCompchanDataService {
 
     int updateByPrimaryKey(BaCompchanData record);
 
+    BaCompchanData selectByCompchanId(String compchanId);
+
 }

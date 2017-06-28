@@ -2,6 +2,8 @@ package com.cld.services;
 
 import com.cld.bean.BaCompchanInfo;
 
+import java.util.List;
+
 /**
  * Created by dong on 2017/6/23.
  */
@@ -18,4 +20,6 @@ public interface BaCompchanInfoService {
     BaCompchanInfo updateByPrimaryKeySelective(String key, String value, String id);
 
     int updateByPrimaryKey(BaCompchanInfo record);
+
+    List<BaCompchanInfo> selectByCompchanId(String compchanId);
 }
