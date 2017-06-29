@@ -26,8 +26,8 @@
 </head>
 <body>
 <div class="header">风控管理系统</div>
-<div th:include="menu::menubox"></div>
-<div class="right-content" id="scoreDiv">
+<div th:include="menu::menubox" style="display: none;"></div>
+<div class="right-content" id="scoreDiv" style="margin-left: 20%;">
     <div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
         <div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">评分</div>
         <div style="width: 20%;float: left;padding-top: 20px;">
@@ -107,7 +107,9 @@
                     readNodes(node.children);
                 }else{
                     var trLightDiv = '<div class="trDiv">' +
-                        '<div class="tdDiv">' + node.name + node.getParentNode().id +'</div>' +
+                        '<div class="tdDiv">' +
+                        '<a href="/compChanData?compId=' + compId + '&compchanId=' + node.id + '">' + node.name + '</a>' +
+                        '</div>' +
                         '<div class="tdDiv">'+ baseScore +'</div>' +
                         '<div class="tdDiv currScore"><input type="text" class="score" name="score"/>' +
                         '</div>' +

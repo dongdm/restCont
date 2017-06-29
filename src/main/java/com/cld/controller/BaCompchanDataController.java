@@ -34,10 +34,12 @@ public class BaCompchanDataController {
     public String compchanData(Model model, HttpServletRequest request){
         String compId = request.getParameter("compId");
         compId = null == compId ? "13" : compId;
-        String compchanId = request.getParameter("compchanId");
-        compchanId = null == compchanId ? "" : compchanId;
+        if(null != request.getParameter("compchanId")){
+            //非必需
+            String compchanId = request.getParameter("compchanId");
+            model.addAttribute("compchanId", compchanId);
+        }
         model.addAttribute("compId", compId);
-        model.addAttribute("compchanId", compchanId);
         return "compChanData";
     }
 

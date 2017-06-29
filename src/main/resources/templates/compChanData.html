@@ -18,6 +18,11 @@
 <div class="right-content" style="margin-top:10px">
 	<div style="width:100%;height: 50px;padding-left: 10px;margin-bottom: 15px;">
 		<div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;" id="contentTitle" compchanId="">&nbsp;&nbsp;</div>
+		<div style="width: 20%;float: left;padding-top: 10px;">
+			<div class="ipt-file"  style="height: 30px;margin: 0;padding: 0;">
+				<a th:href="@{/score(compId=${compId})}"> 评估</a>
+			</div>
+		</div>
 	</div>
 	<form th:action="@{/}">
 		<div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
@@ -139,7 +144,7 @@
     //var ss = [[${list}]];
     //var treeNodes = eval("("+ss+")");
     var compId = [[${compId}]];
-    var compchanId = null;
+    var compchanId = [[${compchanId}]];
     var treeNodes = null;
     $(document).ready(function(){
         var data = {"compId" : compId};
@@ -153,8 +158,16 @@
                 var treeObj = $.fn.zTree.getZTreeObj("tree");
                 treeObj.expandAll(true);
                 var nodes = treeObj.getNodes();
-                var node = firstChildNode(nodes);
-                //默认选中第一个评分项
+                if(compchanId == null){
+                    //默认选中第一个评分项
+                    firstChildNode(nodes);
+                    treeObj.selectNode(firstChild);
+                    getChanData(null, null, firstChild);
+				}else{
+                    var node = treeObj.getNodeByParam("id", compchanId, null);
+                    treeObj.selectNode(node);
+                    getChanData(null, null, node);
+				}
             }
         });
     });
@@ -201,9 +214,10 @@
 					for(var i = 0; i < files.length; i++){
 						//根据后缀名判断文件类型
 						var currFile = files[i];
-						//if(currFile.fileUrl.endwith("jpg")){
-
-						//}else{
+						if(currFile.fileUrl.lastIndexOf("jpg") != -1){
+                            var img = '<div class="head-portrait"><img src="' + currFile.fileUrl + '"/></div>';
+                            $("#minimglist").append(img);
+						}else{
                             var html = '<div>'
                                 + '<div style="width: 80%;float: left;height: 30px;">' + currFile.fileName + '</div>'
                                 + '<div style="width: 15%;float: left;height: 30px;">'
@@ -212,7 +226,7 @@
                                 + '</div>'
                                 + '</div>';
                             $('#fileList').prepend(html);
-						//}
+						}
 					}
                     //要素信息
 					var infos = msg.data.info;
@@ -250,16 +264,20 @@
     	});
 	}
 
+    var firstChild = null;
     function firstChildNode(nodes){
-        $.each(nodes, function(index, node) {
-            if (node) {
-                if (node.isParent) {
-                    firstChildNode(node.children);
-                }else{
-                    return node;
-				}
-            }
-        });
+        if(null!=firstChild){
+            return ;
+		}
+        for(var i = 0 ; i < nodes.length; i++){
+            var currNode = nodes[i];
+			if(currNode.isParent){
+                firstChildNode(currNode.children);
+			}else{
+                firstChild = currNode;
+                break;
+			}
+        }
 	}
 
 	//添加描述
