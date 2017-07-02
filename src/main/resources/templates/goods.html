@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<head th:include="menu::header"></head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<div class="header">风控管理系统</div>
+<div class="right-content" id="scoreDiv" style="margin-left: 20%;">
+	<div style="width:100%;height: 30px;background-color: lightgray;padding-left: 10px;">
+		<div style="width:70%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">商品名称</div>
+		<div style="width:10%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">价格</div>
+		<div style="width:10%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">评价</div>
+		<div style="width:10%;height: 30px;margin: 0;padding: 0;float: left;padding-top: 5px;">来源</div>
+	</div>
+	<div class="clearfix"></div>
+	<div style="width:100%;height: 30px;padding-left: 10px;" th:each="goods:${goodsList}">
+		<div style="width:70%;height: 50px;margin: 0;padding: 0;float: left;padding-top: 5px;">
+			<a th:href="${'https:' + goods.url}" th:text="${goods.name}" target="_black"></a>
+		</div>
+		<div style="width:10%;height: 50px;margin: 0;padding: 0;float: left;padding-top: 5px;" th:text="${goods.price}">价格</div>
+		<div style="width:10%;height: 50px;margin: 0;padding: 0;float: left;padding-top: 5px;" th:text="${goods.commit}">评价</div>
+		<div style="width:10%;height: 50px;margin: 0;padding: 0;float: left;padding-top: 5px;" th:text="${goods.sourceFrom}">来源</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+
+</body>
+</html>

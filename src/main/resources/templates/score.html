@@ -29,7 +29,8 @@
 <div th:include="menu::menubox" style="display: none;"></div>
 <div class="right-content" id="scoreDiv" style="margin-left: 20%;">
     <div style="width:100%;height: 50px;background-color: lightgray;padding-left: 10px;">
-        <div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">评分</div>
+        <div style="width: 80%;float: left;font-size: 24px;padding-top: 15px;">评分
+            <em><a th:href="@{/score/goods(compID=${compId})}" style="font-size: 12px;" target="_black">物品市场</a></em></div>
         <div style="width: 20%;float: left;padding-top: 20px;">
             <div style="width:25%;height: 30px;margin: 0;padding: 0;float: left;">总分：</div>
             <div id="totalScore" style="width:20%;height: 30px;margin: 0;padding: 0;float: left;">0</div>

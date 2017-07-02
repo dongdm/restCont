@@ -1,13 +1,19 @@
 package com.cld.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cld.bean.BaComp;
 import com.cld.bean.BaCompchanData;
+import com.cld.cawl.GoodsBreadthCrawler;
 import com.cld.comp.JSONResponse;
 import com.cld.comp.TransactionStatus;
 import com.cld.services.BaCompChanLoadService;
+import com.cld.services.BaCompService;
 import com.cld.services.BaCompchanDataService;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +31,9 @@ import java.util.Map;
 @RequestMapping("/compChanData")
 public class BaCompchanDataController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(BaCompchanDataController.class);
+
+
     @Autowired
     private BaCompchanDataService baCompchanDataService;
     @Autowired
@@ -39,6 +48,7 @@ public class BaCompchanDataController {
             String compchanId = request.getParameter("compchanId");
             model.addAttribute("compchanId", compchanId);
         }
+
         model.addAttribute("compId", compId);
         return "compChanData";
     }

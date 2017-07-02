@@ -1,13 +1,21 @@
 package com.cld.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cld.bean.BaComp;
 import com.cld.bean.BaCompChanAuto;
 import com.cld.bean.BaCompchanScore;
+import com.cld.cawl.Goods;
+import com.cld.cawl.GoodsBreadthCrawler;
+import com.cld.cawl.GoodsDB;
 import com.cld.comp.JSONResponse;
 import com.cld.comp.TransactionStatus;
 import com.cld.services.BaCompChanAutoService;
+import com.cld.services.BaCompService;
 import com.cld.services.BaCompchanScoreService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +34,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/score")
 public class BaCompchanScoreController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BaCompchanScoreController.class);
 
     @Autowired
     private BaCompChanAutoService baCompChanAutoService;
@@ -108,6 +118,34 @@ public class BaCompchanScoreController {
         compId = "13";
         model.addAttribute("compId", compId);
         return "score";
+    }
+
+    @Autowired
+    private BaCompService baCompService;
+    @Qualifier("crawler")
+    @Autowired
+    private GoodsBreadthCrawler crawler;
+
+    @RequestMapping("/goods")
+    public String goods(HttpServletRequest request, Model model){
+        String compId = request.getParameter("compId");
+        compId = null == compId ? "13" : compId;
+        //爬取物品信息
+        BaComp baComp = new BaComp();
+        try{
+            baComp.setId(new Integer(compId));
+            baComp = baCompService.search(baComp);
+            List<Goods> goodsList = GoodsDB.get(baComp.getProduct());
+            if(null == goodsList){
+                crawler.jdService(baComp.getProduct());
+                goodsList = GoodsDB.get(baComp.getProduct());
+            }
+            model.addAttribute("goodsList", goodsList);
+        }catch (Exception e){
+            //爬取信息失败
+            LOG.info("爬取信息失败%s", baComp.getProduct());
+        }
+        return "goods";
     }
 
 
